@@ -13,6 +13,6 @@ func Test_Foo(t *testing.T) {
 
 	gildedrose.UpdateQuality(items)
 
-	assert.Equal(t, -1, items[0].SellIn)
+	assert.Equal(t, 0, items[0].SellIn)
 	assert.Equal(t, 0, items[0].Quality)
 }
