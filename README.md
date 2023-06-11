@@ -6,7 +6,7 @@ GildedRose Refactoring Kata
 - Run :
 
 ```shell
-go run texttest_fixture.go [<number-of-days>; default: 2]
+go run texttest_fixture.go [<number-of-days>; default: 3]
 ```
 
 - Run tests :
