@@ -8,12 +8,12 @@ import (
 
 func Test_backstage_pass_quality_increased_by_1_and_sellIn_decrease_by_1_when_update_given_sellIn_more_than_10_and_quality_less_than_50(t *testing.T) {
 	var items = []*gildedrose.Item{
-		{"Backstage passes to a TAFKAL80ETC concert", 13, 8},
+		{"Backstage passes to a TAFKAL80ETC concert", 11, 8},
 	}
 
 	gildedrose.UpdateQuality(items)
 
-	assert.Equal(t, 12, items[0].SellIn)
+	assert.Equal(t, 10, items[0].SellIn)
 	assert.Equal(t, 9, items[0].Quality)
 }
 
