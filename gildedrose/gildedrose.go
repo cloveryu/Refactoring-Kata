@@ -55,14 +55,14 @@ func UpdateQuality(items []*Item) {
 	}
 }
 
-func (i *Item) isBackstagePasses() bool {
-	return i.Name == "Backstage passes to a TAFKAL80ETC concert"
+func (item *Item) isBackstagePasses() bool {
+	return item.Name == "Backstage passes to a TAFKAL80ETC concert"
 }
 
-func (i *Item) isSulfuras() bool {
-	return i.Name == "Sulfuras, Hand of Ragnaros"
+func (item *Item) isSulfuras() bool {
+	return item.Name == "Sulfuras, Hand of Ragnaros"
 }
 
-func (i *Item) isAgedBrie() bool {
-	return i.Name == "Aged Brie"
+func (item *Item) isAgedBrie() bool {
+	return item.Name == "Aged Brie"
 }
