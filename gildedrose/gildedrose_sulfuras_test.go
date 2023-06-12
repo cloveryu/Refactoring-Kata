@@ -11,7 +11,7 @@ func Test_sulfuras_quality_and_sellIn_not_change_when_update(t *testing.T) {
 		{"Sulfuras, Hand of Ragnaros", 3, 66},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, 3, items[0].SellIn)
 	assert.Equal(t, 66, items[0].Quality)

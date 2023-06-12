@@ -11,7 +11,7 @@ func Test_aged_brie_quality_increased_by_1_and_sellIn_decrease_by_1_when_update_
 		{"Aged Brie", 3, 8},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, 2, items[0].SellIn)
 	assert.Equal(t, 9, items[0].Quality)
@@ -22,7 +22,7 @@ func Test_aged_brie_quality_is_50_and_sellIn_decrease_by_1_when_update_given_in_
 		{"Aged Brie", 3, 50},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, 2, items[0].SellIn)
 	assert.Equal(t, 50, items[0].Quality)
@@ -33,7 +33,7 @@ func Test_aged_brie_quality_increased_by_2_and_sellIn_decrease_by_1_when_update_
 		{"Aged Brie", 0, 8},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, -1, items[0].SellIn)
 	assert.Equal(t, 10, items[0].Quality)
@@ -44,7 +44,7 @@ func Test_aged_brie_quality_is_50_and_sellIn_decrease_by_1_when_update_given_out
 		{"Aged Brie", 0, 49},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, -1, items[0].SellIn)
 	assert.Equal(t, 50, items[0].Quality)

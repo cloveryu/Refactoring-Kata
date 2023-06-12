@@ -5,53 +5,72 @@ type Item struct {
 	SellIn, Quality int
 }
 
-func UpdateQuality(items []*Item) {
+func PassOneDay(items []*Item) {
 	for _, item := range items {
-		if !item.isAgedBrie() && !item.isBackstagePasses() {
+		item.passByDay()
+	}
+}
+
+func (item *Item) passByDay() {
+	item.updateSellInDays()
+	item.updateQuality()
+
+	if item.isExpired() {
+		item.updateQualityAfterExpiration()
+	}
+}
+
+func (item *Item) updateQuality() {
+	if !item.isAgedBrie() && !item.isBackstagePasses() {
+		if item.Quality > 0 {
+			if !item.isSulfuras() {
+				item.Quality = item.Quality - 1
+			}
+		}
+	} else {
+		if item.Quality < 50 {
+			item.Quality = item.Quality + 1
+			if item.isBackstagePasses() {
+				if item.SellIn < 10 {
+					if item.Quality < 50 {
+						item.Quality = item.Quality + 1
+					}
+				}
+				if item.SellIn < 5 {
+					if item.Quality < 50 {
+						item.Quality = item.Quality + 1
+					}
+				}
+			}
+		}
+	}
+}
+
+func (item *Item) updateQualityAfterExpiration() {
+	if !item.isAgedBrie() {
+		if !item.isBackstagePasses() {
 			if item.Quality > 0 {
 				if !item.isSulfuras() {
 					item.Quality = item.Quality - 1
 				}
 			}
 		} else {
-			if item.Quality < 50 {
-				item.Quality = item.Quality + 1
-				if item.isBackstagePasses() {
-					if item.SellIn < 11 {
-						if item.Quality < 50 {
-							item.Quality = item.Quality + 1
-						}
-					}
-					if item.SellIn < 6 {
-						if item.Quality < 50 {
-							item.Quality = item.Quality + 1
-						}
-					}
-				}
-			}
+			item.Quality = item.Quality - item.Quality
 		}
+	} else {
+		if item.Quality < 50 {
+			item.Quality = item.Quality + 1
+		}
+	}
+}
 
-		if !item.isSulfuras() {
-			item.SellIn = item.SellIn - 1
-		}
+func (item *Item) isExpired() bool {
+	return item.SellIn < 0
+}
 
-		if item.SellIn < 0 {
-			if !item.isAgedBrie() {
-				if !item.isBackstagePasses() {
-					if item.Quality > 0 {
-						if !item.isSulfuras() {
-							item.Quality = item.Quality - 1
-						}
-					}
-				} else {
-					item.Quality = item.Quality - item.Quality
-				}
-			} else {
-				if item.Quality < 50 {
-					item.Quality = item.Quality + 1
-				}
-			}
-		}
+func (item *Item) updateSellInDays() {
+	if !item.isSulfuras() {
+		item.SellIn = item.SellIn - 1
 	}
 }
 
