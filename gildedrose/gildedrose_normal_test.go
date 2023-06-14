@@ -11,7 +11,7 @@ func Test_quality_and_sellIn_decrease_by_1_when_update_given_in_sell_and_quality
 		{"foo", 3, 8},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, 2, items[0].SellIn)
 	assert.Equal(t, 7, items[0].Quality)
@@ -22,7 +22,7 @@ func Test_quality_is_0_and_sellIn_decrease_by_1_when_update_given_in_sell_and_qu
 		{"foo", 3, 0},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, 2, items[0].SellIn)
 	assert.Equal(t, 0, items[0].Quality)
@@ -33,7 +33,7 @@ func Test_quality_decrease_by_2_and_sellIn_decrease_by_1_when_update_given_out_s
 		{"foo", 0, 5},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, -1, items[0].SellIn)
 	assert.Equal(t, 3, items[0].Quality)
@@ -44,7 +44,7 @@ func Test_quality_is_0_and_sellIn_decrease_by_1_when_update_given_out_sell_and_q
 		{"foo", 0, 1},
 	}
 
-	gildedrose.UpdateQuality(items)
+	gildedrose.PassOneDay(items)
 
 	assert.Equal(t, -1, items[0].SellIn)
 	assert.Equal(t, 0, items[0].Quality)
