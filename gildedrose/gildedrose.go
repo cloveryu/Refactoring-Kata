@@ -18,48 +18,47 @@ type ItemHandler interface {
 type AgedBrieHandler struct{}
 
 func (handler *AgedBrieHandler) PassOneDay(item *Item) {
-	updateQuality(item)
+	increaseQuality(item)
 
-	updateSellIn(item)
+	decreaseSellIn(item)
 
 	if isExpired(item) {
-		updateQualityAfterExpiration(item)
+		increaseQuality(item)
 	}
 }
 
 type BackstagePassesHandler struct{}
 
 func (handler *BackstagePassesHandler) PassOneDay(item *Item) {
-	updateQuality(item)
+	increaseQuality(item)
 
-	updateSellIn(item)
+	if item.SellIn < 11 {
+		increaseQuality(item)
+	}
+	if item.SellIn < 6 {
+		increaseQuality(item)
+	}
+
+	decreaseSellIn(item)
 
 	if isExpired(item) {
-		updateQualityAfterExpiration(item)
+		item.Quality = 0
 	}
 }
 
 type SulfurasHandler struct{}
 
-func (handler *SulfurasHandler) PassOneDay(item *Item) {
-	updateQuality(item)
-
-	updateSellIn(item)
-
-	if isExpired(item) {
-		updateQualityAfterExpiration(item)
-	}
-}
+func (handler *SulfurasHandler) PassOneDay(_ *Item) {}
 
 type NormalItemHandler struct{}
 
 func (handler *NormalItemHandler) PassOneDay(item *Item) {
-	updateQuality(item)
+	decreaseQuality(item)
 
-	updateSellIn(item)
+	decreaseSellIn(item)
 
 	if isExpired(item) {
-		updateQualityAfterExpiration(item)
+		decreaseQuality(item)
 	}
 }
 
@@ -73,66 +72,20 @@ func PassOneDay(items []*Item) {
 	}
 }
 
-func updateQualityAfterExpiration(item *Item) {
-	if !isAgedBrie(item) {
-		if !isBackstagePasses(item) {
-			if item.Quality > 0 {
-				if !isSulfuras(item) {
-					item.Quality = item.Quality - 1
-				}
-			}
-		} else {
-			item.Quality = item.Quality - item.Quality
-		}
-	} else {
-		if item.Quality < 50 {
-			item.Quality = item.Quality + 1
-		}
+func increaseQuality(item *Item) {
+	if item.Quality < 50 {
+		item.Quality = item.Quality + 1
 	}
 }
 
-func updateSellIn(item *Item) {
-	if !isSulfuras(item) {
-		item.SellIn = item.SellIn - 1
+func decreaseQuality(item *Item) {
+	if item.Quality > 0 {
+		item.Quality = item.Quality - 1
 	}
 }
 
-func updateQuality(item *Item) {
-	if !isAgedBrie(item) && !isBackstagePasses(item) {
-		if item.Quality > 0 {
-			if !isSulfuras(item) {
-				item.Quality = item.Quality - 1
-			}
-		}
-	} else {
-		if item.Quality < 50 {
-			item.Quality = item.Quality + 1
-			if isBackstagePasses(item) {
-				if item.SellIn < 11 {
-					if item.Quality < 50 {
-						item.Quality = item.Quality + 1
-					}
-				}
-				if item.SellIn < 6 {
-					if item.Quality < 50 {
-						item.Quality = item.Quality + 1
-					}
-				}
-			}
-		}
-	}
-}
-
-func isBackstagePasses(item *Item) bool {
-	return item.Name == "Backstage passes to a TAFKAL80ETC concert"
-}
-
-func isAgedBrie(item *Item) bool {
-	return item.Name == "Aged Brie"
-}
-
-func isSulfuras(item *Item) bool {
-	return item.Name == "Sulfuras, Hand of Ragnaros"
+func decreaseSellIn(item *Item) {
+	item.SellIn = item.SellIn - 1
 }
 
 func isExpired(item *Item) bool {
