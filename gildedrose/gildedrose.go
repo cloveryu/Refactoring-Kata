@@ -2,6 +2,7 @@ package gildedrose
 
 var itemHandlers = map[string]ItemHandler{
 	"Aged Brie":                                 &AgedBrieHandler{},
+	"Conjured Mana Cake":                        &ConjuredHandler{},
 	"Sulfuras, Hand of Ragnaros":                &SulfurasHandler{},
 	"Backstage passes to a TAFKAL80ETC concert": &BackstagePassesHandler{},
 }
@@ -49,6 +50,20 @@ func (handler *BackstagePassesHandler) PassOneDay(item *Item) {
 type SulfurasHandler struct{}
 
 func (handler *SulfurasHandler) PassOneDay(_ *Item) {}
+
+type ConjuredHandler struct{}
+
+func (handler *ConjuredHandler) PassOneDay(item *Item) {
+	decreaseQuality(item)
+	decreaseQuality(item)
+
+	decreaseSellIn(item)
+
+	if isExpired(item) {
+		decreaseQuality(item)
+		decreaseQuality(item)
+	}
+}
 
 type NormalItemHandler struct{}
 
