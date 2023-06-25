@@ -8,11 +8,11 @@ import (
 
 func Test_sulfuras_quality_and_sellIn_not_change_when_update(t *testing.T) {
 	var items = []*gildedrose.Item{
-		{"Sulfuras, Hand of Ragnaros", 3, 66},
+		{"Sulfuras, Hand of Ragnaros", 3, 80},
 	}
 
 	gildedrose.UpdateQuality(items)
 
 	assert.Equal(t, 3, items[0].SellIn)
-	assert.Equal(t, 66, items[0].Quality)
+	assert.Equal(t, 80, items[0].Quality)
 }
